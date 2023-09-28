@@ -93,31 +93,31 @@ const Header = () => {
             onChange={(event) => setSearchQuery(event.target.value)}
             onFocus={() => setShowSuggestions(true)}
             onBlur={() => setShowSuggestions(false)}
-            className="w-7/12 border border-r-0 border-gray-400 rounded-l-full py-2 px-4 focus:outline-none"
+            className="w-8/12 border border-r-0 border-gray-400 rounded-l-full py-2 px-4 focus:outline-none"
           />
           <button className="border border-gray-400 rounded-r-full bg-gray-100 px-2">
             <img src="search-icon.png" alt="search-icon" className=" h-10" />
           </button>
+          {showSuggestions && searchResults && searchResults.length  > 0 && (
+            <div className="fixed top-14 w-[48%] pr-[48px]">
+              <ul className="py-2 bg-white border border-gray-100 shadow-lg rounded-lg ">
+                {searchResults.map((result) => (
+                  <li
+                    key={result}
+                    className="px-2 flex items-center hover:bg-gray-100 cursor-pointer"
+                  >
+                    <img
+                      src="search-icon.png"
+                      alt="search-icon"
+                      className="h-8"
+                    />
+                    {result}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </div>
-        {showSuggestions && searchResults && searchResults.length > 0 &&(
-          <div className="fixed bg-white mt-1 rounded-lg w-[33rem] border border-gray-100 shadow-lg">
-            <ul className="py-2">
-              {searchResults.map((result) => (
-                <li
-                  key={result}
-                  className="px-2 flex items-center hover:bg-gray-100 cursor-pointer"
-                >
-                  <img
-                    src="search-icon.png"
-                    alt="search-icon"
-                    className="h-8"
-                  />
-                  {result}
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
       </div>
       <div className="col-span-1 flex justify-end">
         <img src="user-icon.png" alt="user-icon" className="h-6" />
