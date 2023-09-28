@@ -72,7 +72,7 @@ const Header = () => {
   }, [searchQuery]);
 
   return (
-    <div className="grid grid-flow-col px-4 pt-3 pb-4 items-center fixed w-full bg-white">
+    <div className="grid grid-flow-col px-7 pt-3 pb-4 items-center fixed w-full bg-white">
       <div className="flex col-span-1">
         <button onClick={collapseSidebar}>
           <img
@@ -85,7 +85,7 @@ const Header = () => {
         <img src="youtube-logo.png" alt="youtube-logo" className="h-6 ml-6" />
       </div>
       <div className="col-span-10 px-12">
-        <div className="flex items-center">
+        <div className="flex items-center justify-center">
           <input
             type="text"
             placeholder="Search"
@@ -99,7 +99,7 @@ const Header = () => {
             <img src="search-icon.png" alt="search-icon" className=" h-10" />
           </button>
         </div>
-        {showSuggestions && searchResults && (
+        {showSuggestions && searchResults && searchResults.length > 0 &&(
           <div className="fixed bg-white mt-1 rounded-lg w-[33rem] border border-gray-100 shadow-lg">
             <ul className="py-2">
               {searchResults.map((result) => (

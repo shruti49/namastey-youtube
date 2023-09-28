@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { closeMenu } from "../utils/appSlice";
 import { useSearchParams } from "react-router-dom";
 import CommentsContainer from "./CommentsContainer";
+import LiveChat from "./LiveChat";
 
 const WatchPage = () => {
   //We can't use useParams bcos the url doesn't contain normal params instead it has searchParams
@@ -14,24 +15,23 @@ const WatchPage = () => {
 
   useEffect(() => {
     dispatch(closeMenu());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [dispatch]);
 
   return (
-    <>
-      <div className="flex flex-col col-span-6 m-4">
+    <div className="flex flex-row mx-28 justify-between">
+      <div className="flex flex-col">
         <iframe
-          // width="650"
+          className="rounded-xl"
+          width="700"
           height="400"
           src={`https://www.youtube.com/embed/${searchParams.get("v")}`}
           title="YouTube video player"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
         ></iframe>
-
         <CommentsContainer />
       </div>
-      <div className="col-span-6"></div>
-    </>
+      <LiveChat />
+    </div>
   );
 };
 

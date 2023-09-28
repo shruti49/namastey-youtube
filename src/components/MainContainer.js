@@ -1,10 +1,15 @@
 import React from "react";
 import ButtonList from "./ButtonList";
 import VideoContainer from "./VideoContainer";
+import { useSelector } from "react-redux";
 
 const MainContainer = () => {
+  const isMenuOpen = useSelector((store) => store.app.isMenuOpen);
+
   return (
-    <div className="col-span-10 pl-60 -z-50">
+    <div
+      className={isMenuOpen ? "col-span-10 pl-56 pr-4" : "col-span-10 pl-[6rem] pr-4"}
+    >
       <ButtonList />
       <VideoContainer />
     </div>
