@@ -1,17 +1,38 @@
-import { Provider } from "react-redux";
-import "./App.css";
-import Body from "./components/Body";
-import Header from "./components/Header";
-import store from "./utils/store";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { Provider, useSelector, useDispatch } from "react-redux";
+import LoadingBar from "react-top-loading-bar";
+import store from "./utils/redux/store";
+
+import { setLoadingBarProgress } from "./utils/redux/loaderSlice";
 import MainContainer from "./components/MainContainer";
+import SearchResults from "./components/SearchResults";
 import WatchPage from "./components/WatchPage";
+import Header from "./components/Header";
+import Body from "./components/Body";
 import Demo from "./components/Demo";
+import "./App.css";
+
+const Layout = () => {
+  const progress = useSelector((store) => store.loader.progress);
+
+  const dispatch = useDispatch();
+
+  return (
+    <>
+      <LoadingBar
+        progress={progress}
+        onLoaderFinished={() => dispatch(setLoadingBarProgress(0))}
+      />
+      <Header />
+      <Body />
+    </>
+  );
+};
 
 const appRoute = createBrowserRouter([
   {
     path: "/",
-    element: <Body />,
+    element: <Layout />,
     children: [
       {
         path: "/",
@@ -20,7 +41,12 @@ const appRoute = createBrowserRouter([
       {
         path: "/watch",
         element: <WatchPage />,
-      },      {
+      },
+      {
+        path: "/results",
+        element: <SearchResults />,
+      },
+      {
         path: "/demo",
         element: <Demo />,
       },
@@ -31,10 +57,7 @@ const appRoute = createBrowserRouter([
 function App() {
   return (
     <Provider store={store}>
-      <div>
-        <Header />
-        <RouterProvider router={appRoute}/>
-      </div>
+      <RouterProvider router={appRoute} />
     </Provider>
   );
 }

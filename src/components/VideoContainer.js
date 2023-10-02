@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { YOUTUBE_VIDEOS_API } from "../utils/constants";
-import VideoCard from "./VideoCard";
 import { Link } from "react-router-dom";
+
+import { YOUTUBE_VIDEOS_API } from "../utils/constants";
+import { beginTheBar } from "../utils/loadingBar";
+import VideoCard from "./VideoCard";
 
 const VideoContainer = () => {
   const [videos, setVideos] = useState([]);
@@ -16,11 +18,24 @@ const VideoContainer = () => {
     getVideos();
   }, []);
 
+  // useEffect(()=>{
+  //   //window.onscroll=()=>this does work/
+  //   const handleScroll=()=>{
+  //     console.log(videos.length)
+  //   }
+  //   window.addEventListener('scroll', handleScroll)
+  //   return () => window.removeEventListener("scroll", handleScroll);
+  // }, [videos]) 
+
+
   return (
-    <div className="flex flex-wrap justify-between pt-10">
+    <div
+      className="flex flex-wrap justify-between pt-10"
+      
+    >
       {videos.length > 0 &&
         videos.map((video) => (
-          <Link to={`/watch?v=${video.id}`} key={video.id}>
+          <Link to={`/watch?v=${video.id}`} key={video.id} onClick={() => beginTheBar()}>
             <VideoCard info={video} />
           </Link>
         ))}

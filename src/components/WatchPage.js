@@ -1,8 +1,10 @@
 import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { closeMenu } from "../utils/appSlice";
 import { useSearchParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
+
+import { setComponentName, toggleMenu } from "../utils/redux/appSlice";
 import CommentsContainer from "./CommentsContainer";
+import { endTheBar } from "../utils/loadingBar";
 import LiveChat from "./LiveChat";
 
 const WatchPage = () => {
@@ -14,8 +16,14 @@ const WatchPage = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(closeMenu());
-  }, [dispatch]);
+    endTheBar();
+  }, []);
+
+  useEffect(() => {
+    dispatch(setComponentName("WatchPage"));
+    dispatch(toggleMenu());
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className="flex flex-row mx-28 justify-between">

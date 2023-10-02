@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ChatMessage from "./ChatMessage";
 import { useDispatch } from "react-redux";
-import { addMessage } from "../utils/chatSlice";
+import { addMessage } from "../utils/redux/chatSlice";
 import { useSelector } from "react-redux";
 import {
   generateRandomId,
@@ -70,7 +70,9 @@ const LiveChat = () => {
             onChange={(e) => setLiveMessage(e.target.value)}
           />
           <div className="flex justify-end">
-            <button className="px-4 py-2 mt-3 bg-gray-100 shadow-md rounded-lg">Send</button>
+            <button className="px-4 py-2 mt-3 bg-gray-100 shadow-md rounded-lg">
+              Send
+            </button>
           </div>
         </form>
       </div>

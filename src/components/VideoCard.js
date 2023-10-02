@@ -2,14 +2,20 @@ import React from "react";
 import { useSelector } from "react-redux";
 
 const VideoCard = ({ info }) => {
-  const isMenuOpen = useSelector((store) => store.app.isMenuOpen);
+  const menuStatus = useSelector((store) => store.app.menuStatus);
 
   const { snippet, statistics } = info;
   const { channelTitle, title, thumbnails } = snippet;
 
   return (
     <div
-      className={`p-2 mb-6 cursor-pointer ${isMenuOpen ? "w-[370px] " : "w-[415px] "}`}
+      className={`p-2 mb-6 cursor-pointer ${
+        menuStatus === "full"
+          ? "w-[370px] "
+          : menuStatus === "short"
+          ? "w-[415px]"
+          : ""
+      }`}
     >
       <img
         src={thumbnails.medium.url}

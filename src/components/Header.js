@@ -1,28 +1,50 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { toggleMenu } from "../utils/appSlice";
+import { toggleMenu } from "../utils/redux/appSlice";
 import { YOUTUBE_SEARCH_API } from "../utils/constants";
-import { cacheResults } from "../utils/searchSlice";
+import { cacheResults } from "../utils/redux/searchSlice";
+import { Link } from "react-router-dom";
+import { beginTheBar } from "../utils/loadingBar";
 
 const Header = () => {
   const dispatch = useDispatch();
 
-  const collapseSidebar = () => {
-    dispatch(toggleMenu());
-  };
-
   const [searchQuery, setSearchQuery] = useState("");
 
-  const [searchResults, setSearchResults] = useState();
+  const [searchResults, setSearchResults] = useState([]);
 
   const [showSuggestions, setShowSuggestions] = useState(false);
 
   const searchCache = useSelector((store) => store.search);
 
+  const { menuStatus, componentName } = useSelector((store) => store.app);
+  console.log(menuStatus, componentName);
+  const collapseSidebar = () => {
+    switch (componentName) {
+      case "MainContainer":
+        if (menuStatus === "full") {
+          dispatch(toggleMenu("short"));
+        } else if (menuStatus === "short") {
+          dispatch(toggleMenu("full"));
+        }
+        break;
+      case "WatchPage":
+        if (menuStatus === "full") {
+          dispatch(toggleMenu());
+        } else if (menuStatus === "") {
+          dispatch(toggleMenu("full"));
+        }
+        break;
+
+      default:
+        break;
+    }
+  };
+
   const getSearchSuggestions = async (searchQuery) => {
     const response = await fetch(YOUTUBE_SEARCH_API + searchQuery);
     const data = await response.json();
-    // console.log(data);
+    // console.log(data[1]);
 
     //update SearchCache
     dispatch(
@@ -71,6 +93,8 @@ const Header = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchQuery]);
 
+  // console.log(showSuggestions);
+
   return (
     <div className="grid grid-flow-col px-7 pt-3 pb-4 items-center fixed w-full bg-white">
       <div className="flex col-span-1">
@@ -84,7 +108,7 @@ const Header = () => {
 
         <img src="youtube-logo.png" alt="youtube-logo" className="h-6 ml-6" />
       </div>
-      <div className="col-span-10 px-12">
+      <div className="col-span-10 px-12 z-50">
         <div className="flex items-center justify-center">
           <input
             type="text"
@@ -92,27 +116,33 @@ const Header = () => {
             value={searchQuery}
             onChange={(event) => setSearchQuery(event.target.value)}
             onFocus={() => setShowSuggestions(true)}
-            onBlur={() => setShowSuggestions(false)}
+            // onBlur={() => handleBlur()}
             className="w-8/12 border border-r-0 border-gray-400 rounded-l-full py-2 px-4 focus:outline-none"
           />
           <button className="border border-gray-400 rounded-r-full bg-gray-100 px-2">
             <img src="search-icon.png" alt="search-icon" className=" h-10" />
           </button>
-          {showSuggestions && searchResults && searchResults.length  > 0 && (
-            <div className="fixed top-14 w-[48%] pr-[48px]">
+          {showSuggestions && (
+            <div className="fixed top-14 w-[48%] pr-[48px] z-50">
               <ul className="py-2 bg-white border border-gray-100 shadow-lg rounded-lg ">
                 {searchResults.map((result) => (
-                  <li
+                  <Link
+                    to={`/results?search_query=${result.replace(/ /g, "+")}`}
                     key={result}
-                    className="px-2 flex items-center hover:bg-gray-100 cursor-pointer"
+                    onClick={() => {
+                      setShowSuggestions(false);
+                      beginTheBar();
+                    }}
                   >
-                    <img
-                      src="search-icon.png"
-                      alt="search-icon"
-                      className="h-8"
-                    />
-                    {result}
-                  </li>
+                    <li className="px-2 flex items-center hover:bg-gray-100 cursor-pointer open:border-spacing-4">
+                      <img
+                        src="search-icon.png"
+                        alt="search-icon"
+                        className="h-8"
+                      />
+                      {result}
+                    </li>
+                  </Link>
                 ))}
               </ul>
             </div>
