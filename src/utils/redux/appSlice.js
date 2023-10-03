@@ -21,6 +21,7 @@ const appSlice = createSlice({
           break;
 
         default:
+          state.menuStatus = "close";
           break;
       }
     },

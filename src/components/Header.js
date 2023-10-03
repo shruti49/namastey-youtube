@@ -18,7 +18,7 @@ const Header = () => {
   const searchCache = useSelector((store) => store.search);
 
   const { menuStatus, componentName } = useSelector((store) => store.app);
-  console.log(menuStatus, componentName);
+
   const collapseSidebar = () => {
     switch (componentName) {
       case "MainContainer":
@@ -30,8 +30,8 @@ const Header = () => {
         break;
       case "WatchPage":
         if (menuStatus === "full") {
-          dispatch(toggleMenu());
-        } else if (menuStatus === "") {
+          dispatch(toggleMenu("close"));
+        } else if (menuStatus === "close") {
           dispatch(toggleMenu("full"));
         }
         break;
