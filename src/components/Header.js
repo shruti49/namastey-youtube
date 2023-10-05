@@ -106,7 +106,9 @@ const Header = () => {
           />
         </button>
 
-        <img src="youtube-logo.png" alt="youtube-logo" className="h-6 ml-6" />
+        <Link to="/">
+          <img src="youtube-logo.png" alt="youtube-logo" className="h-6 ml-6" />
+        </Link>
       </div>
       <div className="col-span-10 px-12 z-50">
         <div className="flex items-center justify-center">

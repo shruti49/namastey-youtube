@@ -99,7 +99,7 @@ const CommentList = ({ comments }) =>
       <Comment data={comment} key={comment.index} />
       <div className="ml-5">
         {comment.replies && comment.replies.length > 0 && (
-          <CommentList comments={comment.replies} />
+          <CommentList comments={comment.replies} key={comment.replies.index}/>
         )}
       </div>
     </>

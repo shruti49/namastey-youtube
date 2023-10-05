@@ -14,7 +14,6 @@ import "./App.css";
 
 const Layout = () => {
   const progress = useSelector((store) => store.loader.progress);
-
   const dispatch = useDispatch();
 
   return (

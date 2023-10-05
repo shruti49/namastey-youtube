@@ -13,12 +13,7 @@ const SearchResultCard = ({ data }) => {
       />
       <div className="flex flex-col ml-4">
         <h1 className="text-lg">{title}</h1>
-        <div className="flex">
-          <p>views</p>
-          <p>22hous ago</p>
-        </div>
         <div className="my-4">
-          <img src="" alt="" />
           <p className="text-sm text-gray-500">{channelTitle}</p>
         </div>
         <p className="text-sm">{description}</p>

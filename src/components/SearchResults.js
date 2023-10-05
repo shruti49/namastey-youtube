@@ -13,7 +13,7 @@ const SearchResults = () => {
   const [searchResults, setSearchResults] = useState([]);
   const dispatch = useDispatch();
 
-  const fetchDataFromSearchResults = async (searchParams) => {
+  const fetchVideosFromSearchResults = async (searchParams) => {
     const response = await fetch(
       `${
         YOUTUBE_SEARCH_RESULTS_API +
@@ -26,7 +26,7 @@ const SearchResults = () => {
   };
 
   useEffect(() => {
-    fetchDataFromSearchResults(searchParams);
+    fetchVideosFromSearchResults(searchParams);
   }, [searchParams]);
 
   useEffect(() => {
@@ -34,10 +34,10 @@ const SearchResults = () => {
     dispatch(toggleMenu("full"));
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
+console.log(searchResults);
   return (
     <div className="col-span-10 ml-60 mr-12">
-      {searchResults.length > 0 &&
+      {searchResults &&
         searchResults.map((result) => (
           <Link
             key={result.id.videoId}

@@ -5,7 +5,7 @@ const VideoCard = ({ info }) => {
   const menuStatus = useSelector((store) => store.app.menuStatus);
 
   const { snippet, statistics } = info;
-  const { channelTitle, title, thumbnails } = snippet;
+  const { channelTitle, title, thumbnails, liveBroadcastContent } = snippet;
 
   return (
     <div
@@ -26,6 +26,9 @@ const VideoCard = ({ info }) => {
         <li className="font-bold py-2">{title}</li>
         <li className="text-sm font-medium">{channelTitle}</li>
         <li className="text-sm">{statistics.viewCount} views</li>
+        <h5 className="font-semibold bg-red-600 text-white px-2 text-sm">
+          {liveBroadcastContent === "live" ? "LIVE" : ""}
+        </h5>
       </ul>
     </div>
   );

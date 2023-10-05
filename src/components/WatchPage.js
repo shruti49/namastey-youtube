@@ -2,9 +2,11 @@ import React, { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
+import { useGetVideoByIdQuery } from "../utils/redux/apiService";
 import { setComponentName, toggleMenu } from "../utils/redux/appSlice";
 import CommentsContainer from "./CommentsContainer";
 import { endTheBar } from "../utils/loadingBar";
+import VideoList from "./VideoList";
 import LiveChat from "./LiveChat";
 
 const WatchPage = () => {
@@ -13,6 +15,7 @@ const WatchPage = () => {
 
   const [searchParams] = useSearchParams();
 
+  const videoId = searchParams.get("v");
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -22,23 +25,64 @@ const WatchPage = () => {
   useEffect(() => {
     dispatch(setComponentName("WatchPage"));
     dispatch(toggleMenu());
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const { data, error, isLoading } = useGetVideoByIdQuery(videoId);
+
+  if (data === undefined) {
+    return error;
+  }
+
+  console.log(data);
+  const { snippet, id } = data.items[0];
+  const { channelTitle, title, categoryId, liveBroadcastContent } = snippet;
 
   return (
     <div className="flex flex-row mx-28 justify-between">
-      <div className="flex flex-col">
-        <iframe
-          className="rounded-xl"
-          width="700"
-          height="400"
-          src={`https://www.youtube.com/embed/${searchParams.get("v")}`}
-          title="YouTube video player"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        ></iframe>
-        <CommentsContainer />
-      </div>
-      <LiveChat />
+      {error ? (
+        <>Oh no, there was an error</>
+      ) : isLoading ? (
+        <>Loading...</>
+      ) : data ? (
+        <>
+          <div className="flex flex-col">
+            <iframe
+              className="rounded-xl"
+              width="700"
+              height="400"
+              src={`https://www.youtube.com/embed/${id}`}
+              title="YouTube video player"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            ></iframe>
+            <div className="my-4">
+              <h1 className="font-semibold text-xl">{title}</h1>
+              <div className="flex items-center my-4">
+                <img src="user-icon.png" alt="user-icon" className="h-8" />
+                <h2 className="ml-2 font-semibold text-lg">{channelTitle}</h2>
+                <div className="ml-8">
+                  <button className="border rounded-3xl px-4 py-2 font-semibold">
+                    Join
+                  </button>
+                  <button className="ml-4 bg-black text-white rounded-3xl px-4 py-2 text-base">
+                    Subscribe
+                  </button>
+                </div>
+              </div>
+            </div>
+            <CommentsContainer />
+          </div>
+          <div
+            className={`flex flex-col ml-6 ${
+              liveBroadcastContent === true && "mt-8"
+            }`}
+          >
+            {liveBroadcastContent === true && <LiveChat />}
+
+            <VideoList categoryId={categoryId} />
+          </div>
+        </>
+      ) : null}
     </div>
   );
 };
