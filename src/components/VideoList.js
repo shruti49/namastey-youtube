@@ -10,7 +10,6 @@ const VideoList = ({ categoryId }) => {
       `${YOUTUBE_BASE_API}/videos?chart=mostPopular&&regionCode=IN&videoCategoryId=${categoryId}&maxResults=25&key=${GOOGLE_API_KEY}`
     );
     const data = await response.json();
-
     setVideoIds(data.items);
   };
 
@@ -40,7 +39,7 @@ const VideoList = ({ categoryId }) => {
   }, [videoIds]);
 
   return (
-    <div className="flex flex-col">
+    <>
       {videoList.map((video) => {
         const { channelTitle, title, thumbnails, liveBroadcastContent } =
           video.snippet;
@@ -69,7 +68,7 @@ const VideoList = ({ categoryId }) => {
           </div>
         );
       })}
-    </div>
+    </>
   );
 };
 

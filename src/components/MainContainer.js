@@ -29,7 +29,7 @@ const MainContainer = () => {
     <div
       className={
         menuStatus === "full"
-          ? "col-span-10 pl-56 pr-4"
+          ? "col-span-10 pl-60 pr-4"
           : menuStatus === "short"
           ? "col-span-10 pl-[6rem] pr-4"
           : ""

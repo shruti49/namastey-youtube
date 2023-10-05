@@ -72,13 +72,11 @@ const WatchPage = () => {
             </div>
             <CommentsContainer />
           </div>
-          <div
-            className={`flex flex-col ml-6 ${
-              liveBroadcastContent === true && "mt-8"
-            }`}
-          >
-            {liveBroadcastContent === true && <LiveChat />}
-
+          <div className={`flex flex-col ml-6`}>
+            {liveBroadcastContent === "live" && <LiveChat />}
+            <div
+              className={liveBroadcastContent === "live" ? "mt-8" : ""}
+            ></div>
             <VideoList categoryId={categoryId} />
           </div>
         </>

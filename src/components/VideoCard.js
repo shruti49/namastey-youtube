@@ -11,7 +11,7 @@ const VideoCard = ({ info }) => {
     <div
       className={`p-2 mb-6 cursor-pointer ${
         menuStatus === "full"
-          ? "w-[370px] "
+          ? "w-[365px] "
           : menuStatus === "short"
           ? "w-[415px]"
           : ""

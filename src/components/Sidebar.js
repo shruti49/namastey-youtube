@@ -34,9 +34,9 @@ const Sidebar = () => {
   ];
 
   return (
-    <div className="fixed bg-white col-span-2 ">
+    <div className="fixed bg-white col-span-2 h-5/6 hover:overflow-y-auto overflow-hidden">
       {menuStatus === "full" ? (
-        <div className="mx-4 h-5/6 hover:overflow-y-auto overflow-hidden">
+        <div className="mx-3">
           <Link to="/" onClick={addStyling}>
             <h2
               className={` text-black hover:bg-gray-100 hover:rounded-lg px-12 cursor-pointer py-2 ${linkStyle}`}
