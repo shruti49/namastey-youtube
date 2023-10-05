@@ -21,13 +21,6 @@ const Header = () => {
 
   const collapseSidebar = () => {
     switch (componentName) {
-      case "MainContainer":
-        if (menuStatus === "full") {
-          dispatch(toggleMenu("short"));
-        } else if (menuStatus === "short") {
-          dispatch(toggleMenu("full"));
-        }
-        break;
       case "WatchPage":
         if (menuStatus === "full") {
           dispatch(toggleMenu("close"));
@@ -35,8 +28,12 @@ const Header = () => {
           dispatch(toggleMenu("full"));
         }
         break;
-
       default:
+        if (menuStatus === "full") {
+          dispatch(toggleMenu("short"));
+        } else if (menuStatus === "short") {
+          dispatch(toggleMenu("full"));
+        }
         break;
     }
   };

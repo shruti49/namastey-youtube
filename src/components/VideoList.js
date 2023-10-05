@@ -1,5 +1,9 @@
-import React, { useEffect, useState } from "react";
 import { GOOGLE_API_KEY, YOUTUBE_BASE_API } from "../utils/constants";
+
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+
+import { beginTheBar } from "../utils/loadingBar";
 
 const VideoList = ({ categoryId }) => {
   const [videoIds, setVideoIds] = useState([]);
@@ -24,7 +28,7 @@ const VideoList = ({ categoryId }) => {
 
   useEffect(() => {
     fetchVideoIdsByCategoryId();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -44,6 +48,7 @@ const VideoList = ({ categoryId }) => {
         const { channelTitle, title, thumbnails, liveBroadcastContent } =
           video.snippet;
         return (
+          <Link to={`/watch?v=${video.id}`} key={video.id} onClick={() => beginTheBar()}>
           <div className="flex mb-2" key={video.id}>
             <img
               src={thumbnails.medium.url}
@@ -66,6 +71,7 @@ const VideoList = ({ categoryId }) => {
               </div>
             </div>
           </div>
+          </Link>
         );
       })}
     </>

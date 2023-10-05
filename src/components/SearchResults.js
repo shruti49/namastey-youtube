@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
@@ -12,6 +12,7 @@ const SearchResults = () => {
   const [searchParams] = useSearchParams();
   const [searchResults, setSearchResults] = useState([]);
   const dispatch = useDispatch();
+  const ref = useRef(true);
 
   const fetchVideosFromSearchResults = async (searchParams) => {
     const response = await fetch(
@@ -30,13 +31,19 @@ const SearchResults = () => {
   }, [searchParams]);
 
   useEffect(() => {
-    dispatch(setComponentName("MainContainer"));
+    if (ref.current) {
+      endTheBar();
+    }
+  }, [ref]);
+
+  useEffect(() => {
+    dispatch(setComponentName("SearchResults"));
     dispatch(toggleMenu("full"));
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-console.log(searchResults);
+
   return (
-    <div className="col-span-10 ml-60 mr-12">
+    <>
       {searchResults &&
         searchResults.map((result) => (
           <Link
@@ -47,7 +54,7 @@ console.log(searchResults);
             <SearchResultCard data={result.snippet} />
           </Link>
         ))}
-    </div>
+    </>
   );
 };
 

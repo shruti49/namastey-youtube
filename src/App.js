@@ -4,7 +4,7 @@ import LoadingBar from "react-top-loading-bar";
 import store from "./utils/redux/store";
 
 import { setLoadingBarProgress } from "./utils/redux/loaderSlice";
-import MainContainer from "./components/MainContainer";
+import VideoContainer from "./components/VideoContainer";
 import SearchResults from "./components/SearchResults";
 import WatchPage from "./components/WatchPage";
 import Header from "./components/Header";
@@ -35,7 +35,7 @@ const appRoute = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <MainContainer />,
+        element: <VideoContainer />,
       },
       {
         path: "/watch",

@@ -1,29 +1,12 @@
-import React, { useEffect, useRef } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import React from "react";
+import { useSelector} from "react-redux";
 
-import { setComponentName, toggleMenu } from "../utils/redux/appSlice";
-import VideoContainer from "./VideoContainer";
-import { endTheBar } from "../utils/loadingBar";
+
 import ButtonList from "./ButtonList";
+import { Outlet } from "react-router-dom";
 
 const MainContainer = () => {
-  const menuStatus = useSelector((store) => store.app.menuStatus);
-
-  const ref = useRef(true);
-
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    if (ref.current) {
-      endTheBar();
-    }
-  }, [ref]);
-
-  useEffect(() => {
-    dispatch(setComponentName("MainContainer"));
-    dispatch(toggleMenu("full"));
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const { menuStatus, componentName } = useSelector((store) => store.app);
 
   return (
     <div
@@ -35,8 +18,9 @@ const MainContainer = () => {
           : ""
       }
     >
-      <ButtonList />
-      <VideoContainer />
+      {(componentName === "VideoContainer" ||
+        componentName === "SearchResults") && <ButtonList />}
+      <Outlet />
     </div>
   );
 };
